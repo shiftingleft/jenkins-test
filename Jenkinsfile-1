@@ -1,5 +1,5 @@
 pipeline {
-    agent {
+    agent any
     stage('Build/Pull') {
         sh "rm -f ${env.WORKSPACE}/*.tar"
         sh 'docker pull webgoat/webgoat-7.1'
