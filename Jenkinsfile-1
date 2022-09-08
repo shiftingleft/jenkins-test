@@ -1,12 +1,17 @@
 pipeline {
     agent {
-        docker { image 'node:16.13.1-alpine' }
+    stage('Build/Pull') {
+        sh "rm -f ${env.WORKSPACE}/*.tar"
+        sh 'docker pull webgoat/webgoat-7.1'
+        sh "docker save webgoat/webgoat-7.1 -o ${env.WORKSPACE}/webgoat-7.1.tar"
     }
-    stages {
-        stage('Test') {
-            steps {
-                sh 'node --version'
-            }
-        }
+    stage('IQ Evaluation') {
+        nexusPolicyEvaluation (
+            failBuildOnNetworkError: false, 
+            iqApplication: 'dockerapp',
+            iqScanPatterns: [[scanPattern: '*.tar']],
+            iqStage: 'release',
+            jobCredentialsId: ''
+        )
     }
 }
