@@ -1,8 +1,6 @@
 pipeline {
     agent {
-        docker { 
-          image 'mcr.microsoft.com/powershell'
-        }
+        docker { image 'node:16.13.1-alpine' }
     }
     stages {
         stage('Test') {
