@@ -1,7 +1,9 @@
 pipeline {
     agent {
-        echo this is crazy
-        docker { image 'node:16.13.1-alpine' }
+        docker { 
+          label 'windows'
+          image 'mcr.microsoft.com/powershell'
+        }
     }
     stages {
         stage('Test') {
